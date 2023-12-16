@@ -10,16 +10,16 @@ User = get_user_model()
 
 
 class TestRoutes(TestCase):
-    
+
     @classmethod
     def setUpTestData(cls):
         cls.author = User.objects.create_user(username='Автор')
         cls.reader = User.objects.create_user(username='Читатель')
         cls.note = Note.objects.create(
             title='test',
-            author=cls.author, 
+            author=cls.author,
             text='test'
-            )
+        )
 
     def test_pages_availability(self):
         urls = (
@@ -33,7 +33,7 @@ class TestRoutes(TestCase):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
-                
+
     def test_pages_availability_for_auth_users(self):
         self.client.force_login(self.author)
         urls = (
@@ -46,7 +46,7 @@ class TestRoutes(TestCase):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
-    
+
     def test_availability_for_note_detail_delete_edit(self):
         self.client.force_login(self.author)
         users_statuses = (

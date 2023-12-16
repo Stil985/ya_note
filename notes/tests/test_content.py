@@ -4,11 +4,12 @@ from django.urls import reverse
 
 from notes.models import Note
 
-User = get_user_model( )
+User = get_user_model()
+
 
 class TestNotesPages(TestCase):
     LIST_URL = reverse('notes:list')
-    
+
     @classmethod
     def setUpTestData(cls):
         cls.author = User.objects.create(username='Автор')
@@ -28,8 +29,7 @@ class TestNotesPages(TestCase):
                 self.client.force_login(user)
                 response = self.client.get(self.LIST_URL)
                 self.assertEqual(response.status_code, 200)
-                self.assertEqual(len(response.context['object_list']), count)       
-
+                self.assertEqual(len(response.context['object_list']), count)
 
     def test_authorized_client_has_form(self):
         urls = (
@@ -41,4 +41,3 @@ class TestNotesPages(TestCase):
             with self.subTest(url=url):
                 response = self.client.get(url)
                 self.assertIn('form', response.context)
-                
